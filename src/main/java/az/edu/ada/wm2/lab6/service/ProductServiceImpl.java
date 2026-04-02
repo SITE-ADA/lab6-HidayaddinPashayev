@@ -12,9 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -59,10 +58,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponseDto updateProduct(UUID id, ProductRequestDto dto) {
+        validatePrice(dto.getPrice());
+
         Product existing = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
-
-        validatePrice(dto.getPrice());
 
         existing.setProductName(dto.getProductName());
         existing.setPrice(dto.getPrice());
@@ -75,10 +74,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(UUID id) {
-        if (!productRepository.existsById(id)) {
-            throw new RuntimeException("Product not found with id: " + id);
-        }
-        productRepository.deleteById(id);
+        Product existing = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+        productRepository.delete(existing);
     }
 
     @Override
@@ -105,7 +103,7 @@ public class ProductServiceImpl implements ProductService {
 
     private void attachCategories(Product product, List<UUID> categoryIds) {
         if (categoryIds == null || categoryIds.isEmpty()) {
-            product.setCategories(new HashSet<>());
+            product.setCategories(new ArrayList<>());
             return;
         }
 
@@ -114,7 +112,6 @@ public class ProductServiceImpl implements ProductService {
             throw new RuntimeException("One or more categories were not found.");
         }
 
-        Set<Category> categorySet = new HashSet<>(categories);
-        product.setCategories(categorySet);
+        product.setCategories(new ArrayList<>(categories));
     }
 }

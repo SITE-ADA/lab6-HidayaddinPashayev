@@ -6,7 +6,6 @@ import az.edu.ada.wm2.lab6.model.dto.ProductRequestDto;
 import az.edu.ada.wm2.lab6.model.dto.ProductResponseDto;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -21,16 +20,6 @@ public interface ProductMapper {
     Product toEntity(ProductRequestDto dto);
 
     default List<String> mapCategoriesToNames(List<Category> categories) {
-        if (categories == null) {
-            return Collections.emptyList();
-        }
-        return categories.stream()
-                .map(Category::getName)
-                .toList();
-    }
-
-    // Product uses Set<Category>; this overload lets MapStruct reuse the same logic.
-    default List<String> mapCategoriesToNames(Set<Category> categories) {
         if (categories == null) {
             return Collections.emptyList();
         }

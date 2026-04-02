@@ -1,4 +1,4 @@
-package az.edu.ada.wm2.mapper;
+package az.edu.ada.wm2.lab6.mapper;
 
 import az.edu.ada.wm2.lab6.model.Category;
 import az.edu.ada.wm2.lab6.model.Product;

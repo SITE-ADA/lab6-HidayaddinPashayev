@@ -1,4 +1,4 @@
-package az.edu.ada.wm2.service;
+package az.edu.ada.wm2.lab6.service;
 
 import az.edu.ada.wm2.lab6.model.Category;
 import az.edu.ada.wm2.lab6.model.Product;
